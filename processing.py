@@ -71,24 +71,21 @@ def insert_dataframe_with_formatting(ws: Worksheet, start_row: int, df: pd.DataF
     # Insert empty rows
     ws.insert_rows(start_row, amount=n_rows)
 
-    # Copy entire first row formatting from format_ws to the new rows in ws
-    source_range = format_ws["1:1"]
-    target_range = ws[f"{start_row}:{start_row + n_rows - 1}"]
+    # Find sidste brugte kolonne i format_ws (UsedRange kolonner)
+    max_col = format_ws.max_column
 
-    source_range._cells[0][0].parent.parent._parent._reader.archive.open()  # workaround for .api attribute missing in openpyxl (just a note: xlwings .api is Excel COM object only)
-    # Since openpyxl does not have .api, use cell-by-cell copy like before
-
-    # Because openpyxl has no direct PasteSpecial, we do cell-by-cell copying of styles for all columns in first row:
+    # Kopier formatering for hele række 1 (op til max_col) til de nye rækker i ws
     for row_offset in range(n_rows):
-        for col_idx in range(1, ws.max_column + 1):
+        for col_idx in range(1, max_col + 1):
             source_cell = format_ws.cell(row=1, column=col_idx)
             target_cell = ws.cell(row=start_row + row_offset, column=col_idx)
             copy_cell_format(source_cell, target_cell)
 
-    # Write values
+    # Skriv data
     for i, row in enumerate(df.itertuples(index=False), start=start_row):
         for j, value in enumerate(row, start=1):
             ws.cell(row=i, column=j, value=value)
+
 
 def insert_leistungsbereiche(ws: Worksheet, start_row: int, df_leistungsbereiche: pd.DataFrame):
     # Write leistungsbereiche values without formatting
