@@ -34,11 +34,13 @@ if template_file and raw_file:
         with open(template_path, "rb") as f:
             processed_data = f.read()
 
+        st.write("Erstellt von Manne B. Hansen")
+
         # Provide download button to user
         st.download_button(
             label="Verarbeitete Datei herunterladen",
             data=processed_data,
-            file_name="Verarbeitete_Vorlage.xlsx",
+            file_name="JJMMTT_XXX_Budgetbildung auf Grundlage Kobe_HP.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
