@@ -4,6 +4,7 @@ from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Font, Border, Alignment, Protection
 from openpyxl.worksheet.worksheet import Worksheet
+import sys
 
 # template_path = r"C:\Users\hansen\Desktop\Python Scripts\LV_Data_Assorter\Data\VORLAGE_XXX_Budgetbildung auf Grundlage Kobe_HP.xlsx"
 # raw_path = r"C:\Users\hansen\Desktop\Python Scripts\LV_Data_Assorter\Data\Kostenermittlung nach LB mit Rezepturen_Manne.xlsx"
