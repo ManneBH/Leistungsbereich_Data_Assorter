@@ -97,6 +97,10 @@ df_raw = df_raw.fillna("").infer_objects(copy=False)
 template_file.seek(0)  # Reset pointer
 wb = load_workbook(filename=template_file)
 sheet = wb.worksheets[0]
+
+# Fjern alle sammenflettede celler i arket
+for merged_range in list(sheet.merged_cells.ranges):
+    sheet.unmerge_cells(str(merged_range))
 try:
     format_sheet = wb['Vorlage (DO NOT DELETE)']
 except KeyError:
