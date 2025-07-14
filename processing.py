@@ -118,10 +118,7 @@ def insert_into_excel(template_path: str, df_raw: pd.DataFrame, df_leistungsbere
     wb.close()
 
 def run_processing(template_path: str, raw_path: str):
-    try:
-        df_raw = load_and_clean_data(raw_path)
-        df_raw, df_leistungsbereiche = fill_leistungsbereich_and_kgr(df_raw)
-        insert_into_excel(template_path, df_raw, df_leistungsbereiche)
-    except RuntimeError as e:
-        print(f"Fehler: {e}")
-        sys.exit(1)  # Exit with error code 
+    df_raw = load_and_clean_data(raw_path)
+    df_raw, df_leistungsbereiche = fill_leistungsbereich_and_kgr(df_raw)
+    insert_into_excel(template_path, df_raw, df_leistungsbereiche)
+
