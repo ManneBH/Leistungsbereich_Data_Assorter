@@ -4,7 +4,6 @@ from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Font, Border, Alignment, Protection
 from openpyxl.worksheet.worksheet import Worksheet
-import sys
 
 # template_path = r"C:\Users\hansen\Desktop\Python Scripts\LV_Data_Assorter\Data\VORLAGE_XXX_Budgetbildung auf Grundlage Kobe_HP.xlsx"
 # raw_path = r"C:\Users\hansen\Desktop\Python Scripts\LV_Data_Assorter\Data\Kostenermittlung nach LB mit Rezepturen_Manne.xlsx"
@@ -12,15 +11,6 @@ import sys
 warnings.filterwarnings("ignore", message="Workbook contains no default style")
 
 def load_and_clean_data(raw_path: str) -> pd.DataFrame:
-    try:
-        df_raw = pd.read_excel(raw_path, header=10)
-    except Exception as e:
-        raise RuntimeError(f"Fehler beim Laden der Datei: {e}")
-
-    # Example validation:
-    if df_raw.empty:
-        raise RuntimeError("Die hochgeladene Datei ist leer oder enthält keine gültigen Daten.
-    
     df_raw = pd.read_excel(raw_path, header=10)
     df_raw = df_raw.dropna(axis=1, how='all').dropna(axis=0, how='all').reset_index(drop=True)
     df_raw = df_raw.drop(df_raw.columns[[3,4,5,9,10,11]], axis=1)
