@@ -11,6 +11,15 @@ from openpyxl.worksheet.worksheet import Worksheet
 warnings.filterwarnings("ignore", message="Workbook contains no default style")
 
 def load_and_clean_data(raw_path: str) -> pd.DataFrame:
+    try:
+        df_raw = pd.read_excel(raw_path, header=10)
+    except Exception as e:
+        raise RuntimeError(f"Fehler beim Laden der Datei: {e}")
+
+    # Example validation:
+    if df_raw.empty:
+        raise RuntimeError("Die hochgeladene Datei ist leer oder enthält keine gültigen Daten.
+    
     df_raw = pd.read_excel(raw_path, header=10)
     df_raw = df_raw.dropna(axis=1, how='all').dropna(axis=0, how='all').reset_index(drop=True)
     df_raw = df_raw.drop(df_raw.columns[[3,4,5,9,10,11]], axis=1)
@@ -108,6 +117,10 @@ def insert_into_excel(template_path: str, df_raw: pd.DataFrame, df_leistungsbere
     wb.close()
 
 def run_processing(template_path: str, raw_path: str):
-    df_raw = load_and_clean_data(raw_path)
-    df_raw, df_leistungsbereiche = fill_leistungsbereich_and_kgr(df_raw)
-    insert_into_excel(template_path, df_raw, df_leistungsbereiche)
+    try:
+        df_raw = load_and_clean_data(raw_path)
+        df_raw, df_leistungsbereiche = fill_leistungsbereich_and_kgr(df_raw)
+        insert_into_excel(template_path, df_raw, df_leistungsbereiche)
+    except RuntimeError as e:
+        print(f"Fehler: {e}")
+        sys.exit(1)  # Exit with error code 
