@@ -7,7 +7,7 @@ from processing import run_processing
 # st.set_page_config(page_title="LV Datenaufbereiter", layout="centered")
 
 # Page title and instructions
-st.title("TITEL")
+st.title("Budgetbildung")
 st.write("Bitte lade die Excel-Vorlage und die Rohdaten-Datei hoch.")
 
 # Upload inputs
